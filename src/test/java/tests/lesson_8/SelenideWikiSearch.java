@@ -15,24 +15,23 @@ public class SelenideWikiSearch {
     Configuration.pageLoadStrategy = "eager";
     Configuration.browserSize = "1920x1080";
     Configuration.baseUrl = "https://github.com/";
-//    Configuration.holdBrowserOpen = true;
   }
 
   @Test
-  void WikiSearchTest() {
+  void wikiSearchTest() {
     String firstExample = """
-              @ExtendWith({SoftAssertsExtension.class})
-              class Tests {
-                @Test
-                void test() {
-                  Configuration.assertionMode = SOFT;
-                  open("page.html");
-              
-                  $("#first").should(visible).click();
-                  $("#second").should(visible).click();
-                }
+            @ExtendWith({SoftAssertsExtension.class})
+            class Tests {
+              @Test
+              void test() {
+                Configuration.assertionMode = SOFT;
+                open("page.html");
+                          
+                $("#first").should(visible).click();
+                $("#second").should(visible).click();
               }
-              """;
+            }
+            """;
     String secondExample = """
             class Tests {
               @RegisterExtension
