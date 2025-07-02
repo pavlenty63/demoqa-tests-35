@@ -127,7 +127,7 @@ public class RegistrationPage {
     return this;
   }
 
-  public RegistrationPage checkPNegativeResult() {
+  public RegistrationPage checkNegativeResult() {
     resultsTableComponent.notSubmitedResult();
 
     return this;

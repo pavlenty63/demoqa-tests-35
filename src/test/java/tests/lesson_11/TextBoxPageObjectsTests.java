@@ -70,6 +70,6 @@ public class TextBoxPageObjectsTests {
             .setUserNumber("9909909999")
             .clickSubmit()
 
-            .checkPNegativeResult();
+            .checkNegativeResult();
   }
 }
