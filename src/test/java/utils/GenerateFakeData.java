@@ -54,7 +54,7 @@ public class GenerateFakeData {
       case "Rajasthan":
         return faker.options().option("Jaipur", "Jaiselmer");
       default:
-        return "";
+        return null;
     }
   }
 
@@ -67,45 +67,14 @@ public class GenerateFakeData {
             "August", "September", "October", "November", "December");
   }
 
-  public String getRandomhDay(String month) {
-    String day = null;
-    if (month == "January") {
-      day = String.valueOf(faker.number().numberBetween(1, 31));
+  public String getRandomDay(String month) {
+    if (month.equals("February")) {
+      return String.valueOf(faker.number().numberBetween(1, 28));
+    } else if (month.equals("April") || month.equals("June") || month.equals("September") || month.equals("November")) {
+      return String.valueOf(faker.number().numberBetween(1, 30));
+    } else {
+      return String.valueOf(faker.number().numberBetween(1, 31));
     }
-    if (month == "February") {
-      day = String.valueOf(faker.number().numberBetween(1, 28));
-    }
-    if (month == "March") {
-      day = String.valueOf(faker.number().numberBetween(1, 31));
-    }
-    if (month == "April") {
-      day = String.valueOf(faker.number().numberBetween(1, 30));
-    }
-    if (month == "May") {
-      day = String.valueOf(faker.number().numberBetween(1, 31));
-    }
-    if (month == "June") {
-      day = String.valueOf(faker.number().numberBetween(1, 30));
-    }
-    if (month == "July") {
-      day = String.valueOf(faker.number().numberBetween(1, 31));
-    }
-    if (month == "August") {
-      day = String.valueOf(faker.number().numberBetween(1, 31));
-    }
-    if (month == "September") {
-      day = String.valueOf(faker.number().numberBetween(1, 30));
-    }
-    if (month == "October") {
-      day = String.valueOf(faker.number().numberBetween(1, 31));
-    }
-    if (month == "November") {
-      day = String.valueOf(faker.number().numberBetween(1, 30));
-    }
-    if (month == "December") {
-      day = String.valueOf(faker.number().numberBetween(1, 31));
-    }
-    return day;
   }
 
   public String getRandomPhoto() {

@@ -19,7 +19,7 @@ public class TextBoxFakerTests {
           phone = faker.getRandomPhoneNumber(),
           year = faker.getRandomYear(),
           month = faker.getRandomMonth(),
-          day = faker.getRandomhDay(month),
+          day = faker.getRandomDay(month),
           subject = faker.getRandomSubject(),
           hobby = faker.getRandomHobby(),
           picture = faker.getRandomPhoto(),
