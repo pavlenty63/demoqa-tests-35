@@ -20,7 +20,6 @@ public class ParameterizedDemoQATests {
     Configuration.pageLoadStrategy = "eager";
     Configuration.browserSize = "1920x1080";
     Configuration.baseUrl = "https://demoqa.com";
-    Configuration.holdBrowserOpen = true;
   }
 
   @DisplayName("Проверка формы загрузки файлов")
