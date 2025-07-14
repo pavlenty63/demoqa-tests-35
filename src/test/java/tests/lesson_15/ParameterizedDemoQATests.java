@@ -26,9 +26,10 @@ public class ParameterizedDemoQATests {
   @ValueSource(strings = {"image.jpg", "picture.jpg"})
   @ParameterizedTest(name = "Проверка загрузки файла {0}")
   void uploadFileTest(String fileName) {
-
     open("/upload-download");
     $(".text-center").shouldHave(exactTextCaseSensitive("Upload and Download"));
+    executeJavaScript("$('#fixedban').remove()");
+    executeJavaScript("$('footer').remove()");
 
     $("#uploadFile").uploadFromClasspath(fileName);
 
@@ -42,9 +43,10 @@ public class ParameterizedDemoQATests {
   })
   @ParameterizedTest(name = "Проверка нажатия переключателя {0}")
   void switchEnabledButtonsTest(String button, String elementSelector) {
-
     open("/radio-button");
     $(".text-center").shouldHave(exactTextCaseSensitive("Radio Button"));
+    executeJavaScript("$('#fixedban').remove()");
+    executeJavaScript("$('footer').remove()");
 
     $(elementSelector).click();
 
@@ -55,9 +57,10 @@ public class ParameterizedDemoQATests {
   @EnumSource(StatusCodeName.class)
   @ParameterizedTest
   void checkCodeDescriptionTest(StatusCodeName statusName) {
-
     open("/links");
     $(".text-center").shouldHave(exactTextCaseSensitive("Links"));
+    executeJavaScript("$('#fixedban').remove()");
+    executeJavaScript("$('footer').remove()");
 
     $$("a").find(text(statusName.description)).click();
 
