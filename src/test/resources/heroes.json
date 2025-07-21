@@ -1,0 +1,15 @@
+{
+  "squadName": "SuperHeroes",
+  "active": true,
+  "members": [
+    "Molecule Man",
+    "Madame Uppercut",
+    "Eternal Flame"
+  ],
+  "powers": [
+    "Immortality",
+    "Teleportation",
+    "Million tonne punch",
+    "Damage resistance"
+  ]
+}

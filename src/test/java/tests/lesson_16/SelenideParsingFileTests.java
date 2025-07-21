@@ -15,6 +15,7 @@ import java.util.zip.ZipInputStream;
 
 import static com.codeborne.pdftest.assertj.Assertions.assertThat;
 
+@DisplayName("Тесты с различными файлами")
 public class SelenideParsingFileTests {
   private ClassLoader cl = SelenideParsingFileTests.class.getClassLoader();
 
