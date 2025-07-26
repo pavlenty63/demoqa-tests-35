@@ -82,4 +82,68 @@ public class SelenideParsingFileTests {
       }
     }
   }
+
+  @Test
+  @DisplayName("Проверка наличия текста в PDF-файле из общего архива")
+  void pdfFileZipParsingTest() throws Exception {
+    try (InputStream zip_file = cl.getResourceAsStream("file_test.zip")) {
+      assert zip_file != null;
+      try (ZipInputStream pdf_file = new ZipInputStream(zip_file)) {
+        ZipEntry entry;
+        while ((entry = pdf_file.getNextEntry()) != null) {
+          if (entry.getName().contains(".pdf")) {
+            PDF pdf = new PDF(pdf_file);
+            assertThat(pdf.text).contains("Lorem ipsum");
+          }
+        }
+
+      }
+    }
+  }
+
+  @Test
+  @DisplayName("Проверка записи в ячейке в Exel-файле из общего архива")
+  void xlsFileZipParsingTest() throws Exception {
+    try (InputStream zip_file = cl.getResourceAsStream("file_test.zip")) {
+      assert zip_file != null;
+      try (ZipInputStream xls_file = new ZipInputStream(zip_file)) {
+        ZipEntry entry;
+        while ((entry = xls_file.getNextEntry()) != null) {
+          if (entry.getName().contains(".xls")) {
+            XLS xls = new XLS(xls_file);
+            String actualValue = xls.excel.getSheetAt(0).getRow(3).getCell(4).getStringCellValue();
+            Assertions.assertTrue(actualValue.contains("France"));
+          }
+        }
+
+      }
+    }
+  }
+
+  @Test
+  @DisplayName("Проверка массивов в CSV-файле из общего архива")
+  void csvFileZipParsingTest() throws Exception {
+    try (InputStream zip_file = cl.getResourceAsStream("file_test.zip")) {
+      assert zip_file != null;
+      try (ZipInputStream csv_file = new ZipInputStream(zip_file)) {
+        ZipEntry entry;
+        while ((entry = csv_file.getNextEntry()) != null) {
+          if (entry.getName().contains(".csv")) {
+            CSVReader csvReader = new CSVReader(new InputStreamReader(csv_file));
+            List<String[]> data = csvReader.readAll();
+            Assertions.assertEquals(6, data.size());
+            Assertions.assertArrayEquals(
+                    new String[]{"John", "Doe", "120 jefferson st.", "Riverside", "NJ", "08075"},
+                    data.get(0)
+            );
+            Assertions.assertArrayEquals(
+                    new String[]{"Jack", "McGinnis", "220 hobo Av.", "Phila", "PA", "09119"},
+                    data.get(1)
+            );
+
+          }
+        }
+      }
+    }
+  }
 }
