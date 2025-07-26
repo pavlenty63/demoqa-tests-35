@@ -12,13 +12,11 @@ import java.util.Map;
 
 public class TestBase {
 
-  public static final String WD_HUB = System.getProperty("wd_hub");
-
   @BeforeAll
   static void defaultConf() {
     Configuration.baseUrl = "https://demoqa.com";
     Configuration.pageLoadStrategy = "eager";
-    Configuration.remote = "https://user1:1234@" + WD_HUB + ".autotests.cloud/wd/hub";
+    Configuration.remote = System.getProperty("selenoid_url");
     Configuration.browser = System.getProperty("browser", "chrome");
     Configuration.browserVersion = System.getProperty("browser_version", "128.0");
     Configuration.browserSize = System.getProperty("browser_size", "1920x1080");
