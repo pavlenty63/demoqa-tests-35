@@ -20,17 +20,13 @@ public class SimpleRestApiTests extends TestApiBase {
   void getUserInfoTest() {
     given()
             .header("x-api-key", api_key)
-            .log().uri()
-            .log().body()
             .when()
             .get(users_path + "/3")
-            .then()
+            .then().log().ifValidationFails()
             .statusCode(200)
             .body("data.first_name", equalTo("Emma"))
             .body("data.last_name", equalTo("Wong"))
-            .body("data.email", equalTo("emma.wong@reqres.in"))
-            .log().status()
-            .log().body();
+            .body("data.email", equalTo("emma.wong@reqres.in"));
   }
 
   @Test
@@ -38,22 +34,18 @@ public class SimpleRestApiTests extends TestApiBase {
   void updateUserTest() {
     String userData = "{\"first_name\": \"Elza\", \"last_name\": \"Bong\", \"email\": \"elza.bong@reqres.in\"}";
 
-    given()
+    given().log().body()
             .header("x-api-key", api_key)
             .contentType(JSON)
             .body(userData)
-            .log().uri()
-            .log().body()
             .when()
             .put(users_path + "/3")
-            .then()
+            .then().log().body()
             .statusCode(200)
             .body("first_name", equalTo("Elza"))
             .body("last_name", equalTo("Bong"))
             .body("email", equalTo("elza.bong@reqres.in"))
-            .body("updatedAt", notNullValue())
-            .log().status()
-            .log().body();
+            .body("updatedAt", notNullValue());
   }
 
   @Test
@@ -61,20 +53,16 @@ public class SimpleRestApiTests extends TestApiBase {
   void updateUserInfoTest() {
     String userData = "{\"job\": \"QA\"}";
 
-    given()
+    given().log().body()
             .header("x-api-key", api_key)
             .contentType(JSON)
             .body(userData)
-            .log().uri()
-            .log().body()
             .when()
             .patch(users_path + "/3")
-            .then()
+            .then().log().body()
             .statusCode(200)
             .body("job", equalTo("QA"))
-            .body("updatedAt", notNullValue())
-            .log().status()
-            .log().body();
+            .body("updatedAt", notNullValue());
   }
 
   @Test
@@ -82,33 +70,26 @@ public class SimpleRestApiTests extends TestApiBase {
   void deleteUserTest() {
     given()
             .header("x-api-key", api_key)
-            .log().uri()
-            .log().body()
             .when()
             .delete(users_path + "/3")
-            .then()
-            .statusCode(204)
-            .log().status()
-            .log().body();
+            .then().log().ifValidationFails()
+            .statusCode(204);
   }
 
   @Test
-  @DisplayName("Авторизация несуществующего пользователя")
+  @DisplayName("Авторизация пользователя")
   void loginUnregisteredUserTest() {
-    String userData = "{\"username\": \"Elza\", \"email\": \"elza.bong@reqres.in\", \"password\": \"12345\"}";
+    String userData = "{\"email\": \"emma.wong@reqres.in\", \"password\": \"12345\"}";
 
-    given()
+    given().log().body()
             .header("x-api-key", api_key)
             .contentType(JSON)
             .body(userData)
-            .log().uri()
-            .log().body()
             .when()
             .post(login_path)
-            .then()
-            .statusCode(400)
-            .body("error", equalTo("user not found"))
-            .log().status()
-            .log().body();
+            .then().log().ifStatusCodeIsEqualTo(400)
+            .statusCode(200)
+            .body("token", notNullValue());
+
   }
 }
