@@ -1,6 +1,7 @@
 plugins {
     id 'java-library'
     id 'io.qameta.allure' version '2.12.0'
+    id "io.freefair.lombok" version "6.0.0-m2"
 }
 
 repositories {
@@ -34,8 +35,11 @@ dependencies {
             "com.fasterxml.jackson.core:jackson-databind:2.19.0",
             "org.assertj:assertj-core:4.0.0-M1",
             "io.qameta.allure:allure-selenide:2.19.0",
-            'io.rest-assured:rest-assured:5.3.1'
+            'io.rest-assured:rest-assured:5.3.1',
+            "io.rest-assured:json-schema-validator:5.3.1",
+            "io.qameta.allure:allure-rest-assured:2.21.0",
     )
+    testImplementation 'org.projectlombok:lombok:1.18.28'
 }
 
 tasks.withType(Test) {
@@ -59,5 +63,11 @@ task demoqa_test(type: Test) {
 task properties_test(type: Test) {
     useJUnitPlatform {
         includeTags("property")
+    }
+}
+
+task api_test(type: Test) {
+    useJUnitPlatform {
+        includeTags("api")
     }
 }
