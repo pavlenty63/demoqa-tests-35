@@ -12,9 +12,7 @@ import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static specs.LoginSpec.loginRequestSpec;
-import static specs.LoginSpec.loginResponseSpec;
-import static specs.UserSpec.*;
+import static specs.UserActionsSpec.*;
 
 @Tag("api")
 @DisplayName("Тесты API с моделями и спецификациями")
@@ -24,12 +22,11 @@ public class UserTests extends TestApiBase {
   @DisplayName("Получение информации о пользователе")
   void getUserInfoTest() {
     step("Выполнить запрос", () ->
-            given(userRequestWithIdSpec)
-                    .pathParam("id", "3")
+            given(requestSpec)
                     .when()
-                    .get()
+                    .get("/users/3")
                     .then()
-                    .spec(userResponseWithContentSpec)
+                    .spec(responseSpec200)
                     .body("data.first_name", equalTo("Emma"))
                     .body("data.last_name", equalTo("Wong"))
                     .body("data.email", equalTo("emma.wong@reqres.in")));
@@ -44,13 +41,12 @@ public class UserTests extends TestApiBase {
     userData.setEmail("elza.bong@reqres.in");
 
     UserModel response = step("Выполнить запрос", () ->
-            given(userRequestWithIdSpec)
-                    .pathParam("id", "3")
+            given(requestSpec)
                     .body(userData)
                     .when()
-                    .put()
+                    .put("/users/3")
                     .then()
-                    .spec(userResponseWithContentSpec)
+                    .spec(responseSpec200)
                     .extract().as(UserModel.class));
 
     step("Проверить ответ", () -> {
@@ -68,13 +64,12 @@ public class UserTests extends TestApiBase {
     userData.setJob("QA");
 
     UserModel response = step("Выполнить запрос", () ->
-            given(userRequestWithIdSpec)
-                    .pathParam("id", "3")
+            given(requestSpec)
                     .body(userData)
                     .when()
-                    .patch()
+                    .patch("/users/3")
                     .then()
-                    .spec(userResponseWithContentSpec)
+                    .spec(responseSpec200)
                     .extract().as(UserModel.class));
 
     step("Проверить ответ", () -> {
@@ -87,12 +82,11 @@ public class UserTests extends TestApiBase {
   @DisplayName("Удаление пользователя")
   void deleteUserTest() {
     step("Выполнить запрос", () ->
-            given(userRequestWithIdSpec)
-                    .pathParam("id", "3")
+            given(requestSpec)
                     .when()
-                    .delete()
+                    .delete("/users/3")
                     .then()
-                    .spec(userResponseNoContentSpec));
+                    .spec(responseSpec204));
   }
 
   @Test
@@ -103,12 +97,12 @@ public class UserTests extends TestApiBase {
     userData.setPassword("12345");
 
     LoginResponseModel response = step("Выполнить запрос", () ->
-            given(loginRequestSpec)
+            given(requestSpec)
                     .body(userData)
                     .when()
-                    .post()
+                    .post("/login")
                     .then()
-                    .spec(loginResponseSpec)
+                    .spec(responseSpec200)
                     .extract().as(LoginResponseModel.class));
 
     step("Проверить ответ", () ->

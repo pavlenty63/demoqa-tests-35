@@ -6,22 +6,24 @@ import io.restassured.specification.ResponseSpecification;
 
 import static helpers.CustomAllureListener.withCustomTemplates;
 import static io.restassured.RestAssured.with;
-import static io.restassured.filter.log.LogDetail.BODY;
-import static io.restassured.filter.log.LogDetail.STATUS;
+import static io.restassured.filter.log.LogDetail.ALL;
 import static io.restassured.http.ContentType.JSON;
 
-public class LoginSpec {
-  public static RequestSpecification loginRequestSpec = with()
+public class UserActionsSpec {
+
+  public static RequestSpecification requestSpec = with()
           .filter(withCustomTemplates())
-          .log().body()
-          .log().headers()
+          .log().all()
           .contentType(JSON)
-          .basePath("/api/login")
           .header("x-api-key", "reqres-free-v1");
 
-  public static ResponseSpecification loginResponseSpec = new ResponseSpecBuilder()
+  public static ResponseSpecification responseSpec200 = new ResponseSpecBuilder()
           .expectStatusCode(200)
-          .log(STATUS)
-          .log(BODY)
+          .log(ALL)
+          .build();
+
+  public static ResponseSpecification responseSpec204 = new ResponseSpecBuilder()
+          .expectStatusCode(204)
+          .log(ALL)
           .build();
 }
